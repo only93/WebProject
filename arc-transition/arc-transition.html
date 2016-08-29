@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Arc Transition</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script type="text/javascript" src="d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+   var width = 400,
+       height = 400,
+       endAngle = 2 * Math.PI,    // 2PI
+       colors = d3.scale.category20();
+ 
+      var svg = d3.select("body").append("svg")
+           .attr("class", "pie")
+           .attr("height", height)
+           .attr("width", width);
+
+      function render(innnerRadius){
+        
+         var data = [
+            {startAngle: 0, endAngle: 0.1 * endAngle},          // 0度到36度角
+            {startAngle: 0.1 * endAngle, endAngle: 0.2 * endAngle},
+            {startAngle: 0.2 * endAngle, endAngle: 0.4 * endAngle},
+            {startAngle: 0.4 * endAngle, endAngle: 0.6 * endAngle},        
+            {startAngle: 0.6 * endAngle, endAngle: 0.7 * endAngle},        
+            {startAngle: 0.7 * endAngle, endAngle: 0.9 * endAngle},        
+            {startAngle: 0.9 * endAngle, endAngle: endAngle}
+         ];
+
+         var arc = d3.svg.arc().outerRadius(200)
+               .innerRadius(innnerRadius);    // 如果设置，则生成圆环
+
+         svg.select("g").remove();     // 删除多余的图形部分        
+         
+         svg.append("g")            // svg:g元素只是作为容器将元素分组
+            // 改变圆心位置（原本为画布左上角）
+            .attr("transform", "translate(200, 200)")     
+            .selectAll("path.arc")
+               .data(data)
+            .enter()
+               .append("path")
+                  .attr("class", "arc")
+                  .attr("fill", function(d,i){ return colors(i); })
+
+                  // 使用传统的D3内置的过渡效果实现
+                      // 初始时，下列代码将没一个片段的起始角和终止角都设置为0
+                  // .attr("d", function(d) {return arc({startAngle: 0, endAngle: 0});})
+                  // .transition().duration(1000).ease("linear")
+                      // 使用插值方式将每一个片段变换到其最终角度
+                  // .attr("d", function(d){return arc(d); });    
+
+
+                  // 使用过渡效果生成该圆环，持续时间为1s
+                  .transition().duration(1000)                
+                  .attrTween("d", function(d){ 
+                    var start = {startAngle: 0, endAngle: 0};
+                    var interpolate = d3.interpolate(start, d);
+                    return function(t){ return arc(interpolate(t)); }; });   
+
+
+      }
+
+      render(100);
+
+</script>
+</body>
+</html>
