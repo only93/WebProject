@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bubble Chart</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script type="text/javascript" src="d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+  
+  function bubbleChart() {           // 定义一个图表对象
+    var _chart = {};
+
+    // 定义图表内部属性
+    var _width = 600, _height = 300,
+        _margins = {top: 30, left: 30, right: 30, bottom: 30},
+        _x, _y, _r,
+        _data = [],
+        _colors = d3.scale.category10(),
+        _svg,
+        _bodyG;
+
+    // 图表渲染函数
+    _chart.render = function(){
+      if(!_svg){
+        _svg = d3.select("body").append("svg")
+             .attr("height",_height)
+             .attr("width",_width);
+
+        renderAxes(_svg);
+        
+        defineBodyClip(_svg);     
+      }
+
+      renderBody(_svg);
+    };    
+
+    // 坐标轴渲染函数
+    function renderAxes(svg){
+      var axesG = svg.append("g")
+            .attr("class","axes");
+
+      renderXAxis(axesG);
+      renderYAxis(axesG);      
+    }
+
+    function renderXAxis(axesG){
+
+      var xAxis = d3.svg.axis()
+            .scale(_x.range([0, quadrantWidth()]))
+            .orient("bottom");
+
+      axesG.append("g")
+          .attr("class","axis")
+          .attr("transform", function(){
+            return "translate(" + xStart() + "," + yStart() + ")";
+          })       
+          .call(xAxis);
+    }
+
+    function renderYAxis(axesG){
+      var yAxis = d3.svg.axis()
+            .scale(_y.range([quadrantHeight(), 0]))
+            .orient("left");
+
+      axesG.append("g")
+          .attr("class","axis")
+          .attr("transform", function(){
+            return "translate(" + xStart() + "," + yEnd() + ")";
+          })      
+          .call(yAxis);
+    }
+
+    function defineBodyClip(svg){
+      var padding = 0;
+
+      // <defs>:引用的元素容器
+      svg.append("defs")
+      // <clipPath>:用于隐藏位于剪切路径以外的对象部分。
+      // 定义绘制什么和什么不绘制的模具被称为剪切路径
+            .append("clipPath")       // svg:clipPath——用于限制绘图区域
+            .attr("id","rect")
+            .append("rect")
+              .attr("x", 0)
+              .attr("y", 0)
+              .attr("width", quadrantWidth() + 2 * padding)
+              .attr("height", quadrantHeight());
+    }
+
+    // 图表主体渲染函数
+    function renderBody(svg){
+      if(!_bodyG){
+        _bodyG = svg.append("g")
+             .attr("class", "body")
+             // 平移————实现坐标变换，即将图表主体内的坐标变成了一个相对坐标
+             // 这样，在图表内创建子元素时可以完全忽略边距的因素（使用相对坐标），主体部分左上角依然为原点
+
+             // 使得任何位于图表主体内部的子元素，其原点都在图表主体的左上角
+
+             // 使用SVG坐标变换定义图标主体部分的坐标，方便计算(还是从(0,0)开始计算，而不用考虑边距margin)
+             .attr("transform", "translate(" + xStart() + "," + yEnd() + ")")
+             .attr("clip-path", "url(#body-clip)");
+
+      renderBubbles();       
+      }
+    }
+
+    
+    // 气泡渲染函数
+    function renderBubbles(){
+      _r.range([0, 50]);
+
+      // 遍历存储数据序列的数组
+       _data.forEach(function (list, i) {
+            _bodyG.selectAll("circle._" + i) //<-4E
+                        .data(list)
+                    .enter()
+                    .append("circle")
+                    .attr("class", "bubble _" + i);
+
+            _bodyG.selectAll("circle._" + i)
+                    .data(list) 
+                      .style("stroke", function(d,j) {
+                        return _colors(j);
+                      })                  
+                      .style("fill", function(d,j) {
+                        return _colors(j);
+                      }) 
+                    .transition() //<-4G
+                    .attr("cx", function(d) {return _x(d.x);})
+                    .attr("cy", function(d) {return _y(d.y);})
+                    // D3内置符号的渲染
+                    .attr("r", function(d) {return _r(d.r);}); 
+        });
+    }
+
+
+    function xStart() {
+        return _margins.left;
+    }
+
+    function yStart() {
+        return _height - _margins.bottom;
+    }
+
+    function xEnd() {
+        return _width - _margins.right;
+    }
+
+    function yEnd() {
+        return _margins.top;
+    }
+
+    function quadrantWidth() {
+        return _width - _margins.left - _margins.right;
+    }
+
+    function quadrantHeight() {
+        return _height - _margins.top - _margins.bottom;
+    }
+
+    _chart.width = function (w) {
+        // 如果参数列表为空（即w不存在）
+        if (!arguments.length) return _width;
+        _width = w;
+        return _chart;
+    };
+
+    _chart.height = function (h) { // <-1C
+        if (!arguments.length) return _height;
+        _height = h;
+        return _chart;
+    };
+
+    _chart.margins = function (m) {
+        if (!arguments.length) return _margins;
+        _margins = m;
+        return _chart;
+    };
+
+    _chart.colors = function (c) {
+        if (!arguments.length) return _colors;
+        _colors = c;
+        return _chart;
+    };
+
+    _chart.x = function (x) {
+        if (!arguments.length) return _x;
+        _x = x;
+        return _chart;
+    };
+
+    _chart.y = function (y) {
+        if (!arguments.length) return _y;
+        _y = y;
+        return _chart;
+    };
+
+    _chart.r = function (r) {
+      if(!arguments.length) return _r;
+      _r = r;
+      return _chart;
+    };
+
+    // 生成相应的数据（_data）
+    _chart.addSeries = function (series) { // <-1D
+        _data.push(series);    // 填充数据
+        return _chart;
+    };
+    // 返回图表对象
+    return _chart; 
+  }    
+
+  function randomData(){
+    return Math.random() * 9;
+  }        
+
+  function update(){
+    for(var i=0;i<data.length;++i){
+      var series = data[i];
+      series.length = 0;
+      for(var j=0;j<numberOfDataPoint;++j)
+        series.push({x: randomData(), y: randomData(), r: randomData()});
+    }
+
+    chart.render();
+  }
+
+  var numberOfSeries = 1,
+      numberOfDataPoint = 11,
+      data = [];
+
+  for (var i = 0; i < numberOfSeries; ++i)
+    data.push(d3.range(numberOfDataPoint).map(function (i) {
+        return {x: randomData(), y: randomData(), r: randomData()};
+    }));
+    
+  var chart = bubbleChart()   // 调用该函数返回一个图表对象_chart
+        .x(d3.scale.linear().domain([0, 10]))        // 调用上面的_chart.x函数:定义x轴的尺度
+        .y(d3.scale.linear().domain([0, 10]))        // 调用上面的_chart.y函数:定义y轴的尺度
+        .r(d3.scale.pow().exponent(2).domain([0, 10]));       
+
+  data.forEach(function (series) {
+    chart.addSeries(series);
+  });
+
+  chart.render();    
+
+</script>
+
+<div class="control-group">
+    <button onclick="update()">Update</button>
+</div>
+
+</body>
+</html>
