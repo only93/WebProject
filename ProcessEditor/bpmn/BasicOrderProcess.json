@@ -1,0 +1,19 @@
+{ "class": "go.GraphLinksModel",
+  "copiesArrays": true,
+  "copiesArrayObjects": true,
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "nodeDataArray": [
+    {"key":"CAC2-4EA2", "nType":"start", "category":"event", "name":"Start", "desc":"", "nConfig":{}, "gType":1, "loc":[ -563.703125,-348 ]},
+    {"key":"17E4-47AD", "nType":"activity", "category":"s-subprocess", "name":"Subprocess", "desc":"", "isGroup":true, "isSubProcess":true, "gType":0, "nConfig":{"aId":"", "aName":"", "aDesc":"", "type":"subProcess", "userId":"", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"groupId":""}}, "loc":[ -334.953125,-339.0375 ], "size":"NaN NaN"},
+    {"key":"75A1-4498", "nType":"end", "category":"event", "name":"End", "desc":"", "nConfig":{}, "gType":8, "loc":[ -58.703125,-312 ]},
+    {"key":"CAC2-4EA22", "nType":"start", "category":"event", "name":"Start", "desc":"", "nConfig":{}, "gType":1, "group":"17E4-47AD", "loc":[ -445.703125,-353 ]},
+    {"key":"0B3F-4788", "nType":"event", "category":"event", "name":"Device", "desc":"", "gType":4, "nConfig":{"eId":"", "eName":"", "eDesc":"", "type":"device", "config":{"deviceId":"123456", "deviceCmd":8907}}, "group":"17E4-47AD", "loc":[ -335.703125,-348 ]},
+    {"key":"75A1-44982", "nType":"end", "category":"event", "name":"End", "desc":"", "nConfig":{}, "gType":8, "group":"17E4-47AD", "loc":[ -225.703125,-345 ]}
+  ],
+  "linkDataArray": [
+    {"from":"CAC2-4EA2", "to":"17E4-47AD", "fromPort":"R", "toPort":"L", "tId":"1577-49B6", "points":[-542.203125,-348,-532.203125,-348,-513.833836874577,-348,-513.833836874577,-337.50107625084604,-495.464548749154,-337.50107625084604,-475.464548749154,-337.50107625084604]},
+    {"from":"17E4-47AD", "to":"75A1-4498", "fromPort":"R", "toPort":"L", "tId":"D0C1-4BA9", "points":[-194.44170125084605,-337.50107625084604,-184.44170125084605,-337.50107625084604,-143.07241312542303,-337.50107625084604,-143.07241312542303,-312,-101.703125,-312,-81.703125,-312]},
+    {"from":"CAC2-4EA22", "to":"0B3F-4788", "fromPort":"R", "toPort":"L", "tId":"FCA4-4FAA", "points":[-424.203125,-353,-414.203125,-353,-395.703125,-353,-395.703125,-348,-377.203125,-348,-357.203125,-348]},
+    {"from":"0B3F-4788", "to":"75A1-44982", "fromPort":"R", "toPort":"L", "tId":"E433-4684", "points":[-314.203125,-348,-304.203125,-348,-304.203125,-345,-304.203125,-345,-268.703125,-345,-248.703125,-345]}
+  ]}
