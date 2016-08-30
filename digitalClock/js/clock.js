@@ -50,13 +50,13 @@ $(function(){
             minutes = nowdate.getMinutes(),
             seconds = nowdate.getSeconds(),
             date = nowdate.getDate();
-        var weekday =["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+        var weekday =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         // 获取日期id
-        date_info.innerHTML= year + "年" + month +"月" + day+ "日   " + weekday[day];
+        date_info.innerHTML= year + "/" + month +"/" + day+ "      " + weekday[day];
         hour_time.innerHTML = hours >= 10 ? hours : "0" + hours;
         minute_time.innerHTML = minutes >= 10 ? minutes : "0" + minutes;
         second_time.innerHTML = seconds >=10 ? seconds : "0" + seconds;
-        console.log(year+ "年" + month + "月" + day + "日   " + weekday[day]);
+        console.log(year+ "/" + month + "/" + day + "/   " + weekday[day]);
         //时分秒针设置
         var hour_rotate = (hours * 30 - 90) + (Math.floor(minutes / 12) * 6);
         hour_line.style.transform = 'rotate(' + hour_rotate + 'deg)';
