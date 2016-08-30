@@ -1,22 +1,26 @@
 body {
     font-family: "helvetica";
     margin-left: 25%;
-    margin-top: 5%;
+    margin-top: 8%;
 }
 
 button {
+    width: 55px;
+    height: 30px;
     margin: 0 7px 0 0;
-    background-color: #f5f5f5;
-    border: 1px solid #dedede;
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
+    background-color: #16d3ba;
+    border: 2px solid #0bb69f;
+    border-radius: 5px;
 
     font-size: 12px;
+    text-align: center;
     line-height: 130%;
     text-decoration: none;
     font-weight: bold;
-    color: #565656;
     cursor: pointer;
+}
+button:active{
+    background-color:#0a9280;
 }
 
 .box {
