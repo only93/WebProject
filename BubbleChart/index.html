@@ -16,7 +16,7 @@
     var _chart = {};
 
     // 定义图表内部属性
-    var _width = 600, _height = 300,
+    var _width = 800, _height = 500,
         _margins = {top: 30, left: 30, right: 30, bottom: 30},
         _x, _y, _r,
         _data = [],
@@ -29,7 +29,8 @@
       if(!_svg){
         _svg = d3.select("body").append("svg")
              .attr("height",_height)
-             .attr("width",_width);
+             .attr("width",_width)
+             .attr("margin-left", 300);
 
         renderAxes(_svg);
         
