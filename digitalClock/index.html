@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digital Clock</title>
+  <link rel="stylesheet" href="css/clock.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/clock.js"></script>
+</head>
+
+<body>
+<div class="box" id="clock">
+    <!-- 原点 -->
+    <div class="origin"></div>
+    <!-- 时钟数 -->
+    <div class="dot_box">
+        <div class="dot">6</div>
+        <div class="dot">5</div>
+        <div class="dot">4</div>
+        <div class="dot">3</div>
+        <div class="dot">2</div>
+        <div class="dot">1</div>
+        <div class="dot">12</div>
+        <div class="dot">11</div>
+        <div class="dot">10</div>
+        <div class="dot">9</div>
+        <div class="dot">8</div>
+        <div class="dot">7</div>
+    </div>
+    <!-- 时、分、秒针 -->
+    <div class="clock_line hour_line" id="hour_line"></div>
+    <div class="clock_line minute_line" id="minute_line"></div>
+    <div class="clock_line second_line" id="second_line"></div>
+    <!-- 日期 -->
+    <div class="date_info" id="date_info"></div>
+    <!-- 时间 -->
+    <div class="time_info" >
+        <div class="time" id="hour_time"></div>
+        <div class="time" id="minute_time"></div>
+        <div class="time" id="second_time"></div>
+    </div>
+</div>
+</body>
+</html>
