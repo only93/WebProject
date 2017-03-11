@@ -1,0 +1,188 @@
+#myDiagram {
+  float: left;
+  border: solid 1px gray;
+  /*border-left: none;*/
+  width: 90.4%;
+  margin-top: 4px;
+  height: 774px;
+  background-color: white;
+}
+
+#description {
+  float: left;
+  margin-left: 4px;
+}
+
+#PaletteAndDiagram {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+#sideBar {
+  float: left;
+  width: 9%;
+  min-height: 500px;
+  text-align: center;
+  border: 1px solid gray;
+  margin-top: 4px;
+}
+
+#dragBar {
+  width: 0.1%;
+  cursor: col-resize;
+  background-color: gray;
+  float: left;
+  margin-top: 4px;
+  z-index: 1;
+  left: 9%;
+}
+
+.myPalette {
+  width: 100%;
+  min-height: 643px;
+  /*background-color: black;*/
+}
+
+#accordion {
+  margin: 0px;
+  width: 96%;
+  min-height: 543px;
+  /*background-color: black;*/
+}
+
+#level1 {
+  margin: 0px; 
+  width: 97%;
+  min-height: 625px;
+}
+
+#myOverview {
+  width: 100%;
+  height: 225px;
+}
+
+/* top bar area */
+
+.ui-accordion .ui-accordion-content {
+  padding: 1px;
+}
+.ui-menu {
+  width: 120px;
+}
+
+#menuui {
+  height: 30px;
+  width: 99.6%;
+  /*background-color: black;*/
+}
+#menuui > li {
+   float: left;
+   padding: .3em .8em .2em;
+   font: 16px/100% Arial,Helvetica,sans-serif;
+}
+
+#menuui > li > a {
+  padding: .3em .5em .3em;
+}
+
+#menuui > li > ul >li {
+  font: 14px/100% Arial,Helvetica,sans-serif;
+}
+
+#menuui > li > button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font: 14px/100% Arial,Helvetica,sans-serif;
+  /*padding: .2em .5em .2em;*/
+  text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  /*苹果、谷歌一些浏览器认，因为他们用的是webkit内核*/
+  -webkit-border-radius: .5em;
+  /*moz这个属性，主要是专门支持Mozilla Firefox火狐浏览器的CSS属性 */
+  -moz-border-radius: .5em;
+  /*使用border-radius这个属性能够实现圆角边框的效果*/
+  border-radius: .5em;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+h4 {
+  font: 12px Arial,sans-serif;
+}
+
+input {
+  text-align: center;
+  font:  18px sans-serif;
+  float: left;
+  width: 236px;
+}
+
+select {
+  text-align: center;
+  font: 18px sans-serif;
+  float: left;
+}
+
+#myOverview {
+  background-color: lightgray;
+}
+
+.draggable {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid gray;
+  background-color: #e2e2e2;
+  position: absolute;
+  width: 330px;
+  height: 200px;
+  z-index: 10;
+}
+
+.handle {
+  background-color: #31bbcb;
+  text-align: center;
+  font: bold 12px sans-serif;
+  height: 20px;
+  border-bottom: 1px solid gray;
+}
+
+.handle1 {
+  background-color: #31bbcb;
+  font: bold 12px sans-serif;
+  height: 20px;
+  border-bottom: 1px solid gray;
+}
+
+.elementText {
+  font-family: Arial;
+  font-size: medium;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.mySavedFiles {
+  font-family: Arial;
+  font-size: medium;
+  width: 250px;
+  margin-left: 25px;
+}
+
+.elementBtn {
+  margin-top: 20px;
+  font-family: Arial;
+  font-size: medium;
+  margin-left: 20px;
+}
+
+.elementBtn1 {
+  margin-top: 5px;
+  font-family: Arial;
+  font-size: medium;
+  margin-left: 20px;
+}
+
+

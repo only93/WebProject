@@ -1,0 +1,49 @@
+{
+  "class": "go.GraphLinksModel",
+  "copiesArrays": true,
+  "copiesArrayObjects": true,
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "modelData": {"isMultiple":false},
+  "nodeDataArray": [
+{"key":"BF59-46B9", "nType":"start", "category":"event", "name":"Start", "desc":"", "nConfig":{}, "gType":1, "loc":[ -412.375,-293 ]},
+{"key":"181B-429F", "nType":"activity", "category":"s-subprocess", "name":"", "desc":"", "isGroup":true, "isSubProcess":true, "gType":0, "nConfig":{"aId":"181B-429F", "aName":"", "aDesc":"", "type":"subProcess", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"groupId":"181B-429F"}}, "loc":[ 161.625,-185.5 ], "size":"NaN NaN"},
+{"key":"4656-48A8", "nType":"activity", "category":"task", "name":"指示", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A8", "aName":"�?指示�?", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "loc":[ -229.375,-197 ]},
+{"key":"18C6-42B2", "nType":"gateway", "category":"zgateway", "name":"并行网关", "desc":"", "gType":1, "nConfig":{"type":"parallel"}, "loc":[ -412.375,89 ]},
+{"key":"E5EA-4F8F", "nType":"gateway", "category":"zgateway", "name":"排他网关", "desc":"", "gType":4, "nConfig":{"type":"exclusive"}, "loc":[ -412.375,-96 ]},
+{"key":"18C6-42B22", "nType":"gateway", "category":"zgateway", "name":"并行网关", "desc":"", "gType":1, "nConfig":{"type":"parallel"}, "loc":[ -42.375,91 ]},
+{"key":"4656-48A82", "nType":"activity", "category":"task", "name":"关灯A", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A82", "aName":"关灯A", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "loc":[ -234.375,-2 ]},
+{"key":"0455-419D", "nType":"event", "category":"event", "name":"体感监测", "desc":"", "gType":4, "nConfig":{"eId":"0455-419D", "eName":"体感�?�?", "eDesc":"", "type":"device", "config":{"deviceId":"123456", "deviceCmd":"8907"}}, "loc":[ -412.375,-208 ]},
+{"key":"4656-48A83", "nType":"activity", "category":"task", "name":"关灯B", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A83", "aName":"关灯B", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "loc":[ -238.375,170 ]},
+{"key":"3AD3-479C", "nType":"end", "category":"event", "name":"结束", "desc":"", "nConfig":{}, "gType":8, "loc":[ 161.625,128 ]},
+{"key":"BF59-46B92", "nType":"start", "category":"event", "name":"Start", "desc":"", "nConfig":{}, "gType":1, "group":"181B-429F", "loc":[ -27.375,-263 ]},
+{"key":"0455-419D2", "nType":"event", "category":"event", "name":"温控监测", "desc":"", "gType":4, "nConfig":{"eId":"0455-419D2", "eName":"温控监测", "eDesc":"", "type":"device", "config":{"deviceId":"123456", "deviceCmd":"8907"}}, "group":"181B-429F", "loc":[ -27.375,-183 ]},
+{"key":"D5D3-4684", "nType":"gateway", "category":"zgateway", "name":"相容网关", "desc":"", "gType":2, "nConfig":{"type":"inclusive"}, "group":"181B-429F", "loc":[ 69.625,-183 ]},
+{"key":"4656-48A84", "nType":"activity", "category":"task", "name":"空调-热风", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A84", "aName":"�?空调-热风", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "group":"181B-429F", "loc":[ 186.625,-261 ]},
+{"key":"4656-48A85", "nType":"activity", "category":"task", "name":"空调-冷风", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A85", "aName":"�?空调-冷风", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "group":"181B-429F", "loc":[ 193.625,-110 ]},
+{"key":"3AD3-479C2", "nType":"end", "category":"event", "name":"结束", "desc":"", "nConfig":{}, "gType":8, "group":"181B-429F", "loc":[ 358.625,-197 ]},
+{"key":"4656-48A86", "nType":"activity", "category":"task", "name":"调节湿度", "desc":"", "gType":4, "nConfig":{"aId":"4656-48A86", "aName":"调节湿度", "aDesc":"", "type":"task", "behavior":"immediate", "behaviorConfig":{"exeTimes":4, "cron":"*/20 * * * * ?"}, "config":{"tType":"DanaleDeviceTask", "taskArgs":{"userId":"skdjfhw23", "userPass":"1232321", "cmd":"IotRunCmd", "appDid":"xxxxxxx", "appCore":2, "coreCode":"8888888888", "deviceId":"10002AXG", "subDevId":"10002AXG", "cmdId":903501, "argInt32":[ 1 ], "argDouble":[ 0 ], "argString":[ "0" ], "argByte":"", "page":0, "pageSize":0}}}, "loc":[ 161.625,20 ]}
+ ],
+  "linkDataArray": [
+{"from":"BF59-46B92", "to":"0455-419D2", "fromPort":"B", "toPort":"T", "tId":"084C-4485", "points":[-27.375,-241.5,-27.375,-231.5,-27.375,-228,-27.375,-228,-27.375,-224.5,-27.375,-204.5]},
+{"from":"0455-419D2", "to":"D5D3-4684", "fromPort":"R", "toPort":"L", "tId":"731F-419B", "points":[-5.875,-183,4.125,-183,6.625,-183,6.625,-183,9.125,-183,29.125,-183]},
+{"from":"D5D3-4684", "to":"4656-48A84", "fromPort":"T", "toPort":"", "tId":"9880-4EA0", "category":"zgateway", "points":[69.625,-223.5,69.625,-233.5,69.625,-261,93.125,-261,116.625,-261,136.625,-261]},
+{"from":"D5D3-4684", "to":"4656-48A85", "fromPort":"B", "toPort":"", "tId":"65FE-4A99", "category":"zgateway", "points":[69.625,-142.5,69.625,-132.5,69.625,-124,69.625,-124,69.625,-110,123.625,-110,143.625,-110]},
+{"from":"4656-48A84", "to":"3AD3-479C2", "fromPort":"", "toPort":"L", "tId":"654D-4DAF", "points":[236.625,-261,246.625,-261,281.125,-261,281.125,-197,315.625,-197,335.625,-197]},
+{"from":"4656-48A85", "to":"3AD3-479C2", "fromPort":"", "toPort":"L", "tId":"3180-439A", "points":[243.625,-110,253.625,-110,284.625,-110,284.625,-197,315.625,-197,335.625,-197]},
+{"from":"181B-429F", "to":"4656-48A86", "fromPort":"B", "toPort":"", "tId":"DA75-4E9A", "points":[161.62499999999997,-49.2157287525381,161.62499999999997,-39.2157287525381,161.62499999999997,-37.10786437626905,161.625,-37.10786437626905,161.625,-35,161.625,-15]},
+{"from":"E5EA-4F8F", "to":"4656-48A8", "fromPort":"R", "toPort":"", "tId":"8BC7-4F85", "category":"zgateway", "points":[-371.875,-96,-361.875,-96,-330.625,-96,-330.625,-197,-299.375,-197,-279.375,-197], "condition":"有人", "isDefault":false},
+{"from":"BF59-46B9", "to":"0455-419D", "fromPort":"B", "toPort":"T", "tId":"E9BD-4D9E", "points":[-412.375,-271.5,-412.375,-261.5,-412.375,-255.5,-412.375,-255.5,-412.375,-249.5,-412.375,-229.5]},
+{"from":"0455-419D", "to":"E5EA-4F8F", "fromPort":"B", "toPort":"T", "tId":"BB67-4CB9", "points":[-412.375,-186.5,-412.375,-176.5,-412.375,-166.5,-412.375,-166.5,-412.375,-156.5,-412.375,-136.5]},
+{"from":"E5EA-4F8F", "to":"18C6-42B2", "fromPort":"B", "toPort":"T", "tId":"5685-4AB2", "category":"zgateway", "points":[-412.375,-55.5,-412.375,-45.5,-412.375,-45.5,-412.375,-45.5,-412.375,28.5,-412.375,48.5], "condition":"无人", "isDefault":false},
+{"from":"18C6-42B2", "to":"4656-48A82", "fromPort":"R", "toPort":"", "tId":"A017-43B8", "category":"zgateway", "points":[-371.875,89,-361.875,89,-333.125,89,-333.125,-2,-304.375,-2,-284.375,-2]},
+{"from":"18C6-42B2", "to":"4656-48A83", "fromPort":"R", "toPort":"", "tId":"AA56-4BBF", "category":"zgateway", "points":[-371.875,89,-361.875,89,-335.125,89,-335.125,170,-308.375,170,-288.375,170]},
+{"from":"4656-48A82", "to":"18C6-42B22", "fromPort":"", "toPort":"L", "tId":"8D48-4AAF", "points":[-184.375,-2,-174.375,-2,-138.625,-2,-138.625,91,-102.875,91,-82.875,91]},
+{"from":"4656-48A83", "to":"18C6-42B22", "fromPort":"", "toPort":"L", "tId":"C411-4F93", "points":[-188.375,170,-178.375,170,-140.625,170,-140.625,91,-102.875,91,-82.875,91]},
+{"from":"4656-48A86", "to":"3AD3-479C", "fromPort":"", "toPort":"T", "tId":"6F6F-44B9", "points":[161.625,55,161.625,65,161.625,75,161.625,75,161.625,85,161.625,105]},
+{"from":"18C6-42B22", "to":"3AD3-479C", "fromPort":"R", "toPort":"L", "tId":"7DAD-4D9D", "category":"zgateway", "points":[-1.875,91,8.125,91,63.375,91,63.375,128,118.625,128,138.625,128]},
+{"from":"4656-48A8", "to":"181B-429F", "fromPort":"", "toPort":"L", "tId":"5483-44B1", "points":[-179.375,-197,-169.375,-197,-128.005711874577,-197,-128.005711874577,-187.99465535240856,-86.636423749154,-187.99465535240856,-66.636423749154,-187.99465535240856]}
+ ]}
+
+
+

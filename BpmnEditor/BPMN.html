@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BPMN Editor</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <script>
+    var g_userId ;
+  </script>
+
+  <script src="go.js"></script>
+  <script src="jquery.min.js"></script>
+  <script src="jquery-ui.min.js"></script>
+  <script src="DrawCommandHandler.js"></script>
+  <script src="BPMNClasses.js"></script>
+  <script src="BPMN.js" charset="gb2312"></script>
+
+  <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link href="BPMN.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body onload="init()">
+  <div id="diagram">
+    <div id="currentFile"></div>
+        <ul id="menuui">
+
+        <li><a href="#">编辑</a>
+          <ul>
+            <li><a href="#" onclick="myDiagram.commandHandler.undo()">撤销</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.redo()">恢复</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.cutSelection()">剪切</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.copySelection()">复制</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.pasteSelection()">粘贴</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.deleteSelection()">删除</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">对齐</a>
+          <ul>
+            <li><a href="#" onclick="myDiagram.commandHandler.alignLeft()">左对齐</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.alignRight()">右对齐</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.alignTop()">向上对齐</a></li>
+            <li><a href="#" onclick="myDiagram.commandHandler.alignBottom()">向下对齐</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <button onclick="saveAndReturn()" style="background: #1bb0ff;margin-left: 40px"><strong>保存并返回</strong></button>
+        </li>
+
+        <li>
+          <button style="background: red"><strong>放弃</strong></button>
+        </li>
+
+        <li>
+          <button onclick='loadJSONDataPass("load.json")'>加载</button>
+        </li>
+
+      </ul>
+    <!--END menu bar -->
+
+    <div id="PaletteAndDiagram">
+      <div id="sideBar">
+        <span style="display: inline-block; vertical-align: top; padding-left: 3px;padding-right: 3px; width:100%">
+      <div id="accordion">
+
+        <h4>基本图标</h4>
+        <div>
+          <div id="myPaletteLevel1" class="myPalette" ></div>
+        </div>
+
+        <h4>附加图标</h4>
+        <div>
+          <div id="myPaletteLevel2" class="myPalette"></div>
+        </div>
+
+      </div>
+
+       </span>
+      </div>
+
+      <div id="dragBar"></div>
+
+      <div id="myDiagram"></div>
+
+    </div>
+
+    <!--双击Task时，弹出的div层-->
+    <div id="div1" class="draggable" style="top: 200px;  left: 600px; width:355px; height: 655px" onmousedown="mouseDown(1)" onmouseup="mouseUp(1)">
+      <div id="taskDraggableHandle" class="handle" style="width: 355px">属性配置</div>
+      <div style="margin-top: 10px"></div>
+      <table id="myTask" style="margin-left: 10px">
+        <tr>
+          <td><strong>名称:</strong></td>
+          <td><input id="taskName" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>执行方式:</strong></td>
+          <td><select id="behavior" style="width: 240px;padding-left: 34%;">
+            <option value="immediate">立即执行</option>
+            <option value="delay">延迟执行</option>
+            <option value="cycle">周期执行</option>
+            <option value="loop">循环执行</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td><strong>执行次数:</strong></td>
+          <td><input id="executions" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>执行时间:</strong></td>
+          <td><input id="cron" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>用户ID:</strong></td>
+          <td><input id="userID" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>用户密码:</strong></td>
+          <td><input id="userPass" type="text"/></td>
+        </tr>
+        <tr>
+          <td> <strong>命令:</strong> </td>
+          <td> <input id="cmd" type="text"/> </td>
+        </tr>
+        <tr>
+          <td><strong>设备ID:</strong></td>
+          <td><input id="deviceId" type="text"></td>
+        </tr>
+        <tr>
+
+          <td><strong>子设备ID:</strong></td>
+          <td><input id="subDevId" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>AppDid:</strong></td>
+          <td><input id="appDid" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>AppCore:</strong></td>
+          <td><input id="appCore" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>CoreCode:</strong></td>
+          <td><input id="coreCode" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>设备命令ID:</strong></td>
+          <td><input id="cmdId" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>ArgInt32:</strong></td>
+          <td><input id="argInt32" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>ArgDouble:</strong></td>
+          <td><input id="argDouble" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>ArgString:</strong></td>
+          <td><input id="argString" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>ArgByte:</strong></td>
+          <td><input id="argByte" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>Page:</strong></td>
+          <td><input id="page" type="text"></td>
+        </tr>
+        <tr>
+          <td><strong>PageSize:</strong></td>
+          <td><input id="pageSize" type="text"></td>
+        </tr>
+      </table>
+
+      <button id="saveBtn" class="elementBtn1" type="button" onclick="saveTaskConfiguration('div1')" style="margin-left: 110px;margin-top: 8px">保存</button>
+      <button id="cancelBtn3" class="elementBtn1" type="button" onclick="closeElement('div1')">取消</button>
+    </div>
+
+    <!--双击deviceEvent时，弹出的div层-->
+    <div id="div2" class="draggable" style="top: 300px;  left: 700px" onmousedown="mouseDown(2)" onmouseup="mouseUp(2)">
+      <div id="deviceEventDraggableHandle" class="handle" style="width: 330px">属性配置</div>
+      <div style="margin-top: 20px;"></div>
+      <table id="myDeviceEvent" style="margin-top: 15px">
+        <tr>
+          <td><strong>名称:</strong></td>
+          <td><input id="deviceEventName" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>设备ID:</strong></td>
+          <td><input id="deviceEvent_id" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>设备命令:</strong></td>
+          <td>
+            <input id="deviceCmd" type="text"/>
+          </td>
+        </tr>
+      </table>
+
+      <button id="deviceEventSaveBtn" class="elementBtn1" type="button" onclick="saveDeviceEventConfiguration('div2')" style="margin-left: 100px;margin-top: 20px">保存</button>
+      <button id="deviceEventCancelBtn" class="elementBtn1" type="button" onclick="closeElement('div2')">取消</button>
+    </div>
+
+    <!--双击timerEvent时，弹出的div层-->
+    <div id="div9" class="draggable" style="top: 250px;  left: 650px; height: 180px" onmousedown="mouseDown(9)" onmouseup="mouseUp(9)">
+      <div id="timerEventDraggableHandle" class="handle" style="width: 330px">属性配置</div>
+      <div style="margin-top: 20px;"></div>
+      <table id="myTimerEvent" style="margin-top: 15px">
+        <tr>
+          <td><strong>名称:</strong></td>
+          <td><input id="timerEventName" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>定时器:</strong></td>
+          <td><input id="timer" type="text"/></td>
+        </tr>
+      </table>
+
+      <button id="timerEventSaveBtn" class="elementBtn1" type="button" onclick="saveTimerEventConfiguration('div9')" style="margin-left: 100px;margin-top: 20px">保存</button>
+      <button id="timerEventCancelBtn" class="elementBtn1" type="button" onclick="closeElement('div9')">取消</button>
+    </div>
+
+    <!--双击Palette2开关灯时，弹出的div层-->
+    <div id="div3" class="draggable" style="top: 250px;  left: 700px; width: 330px; height: 160px" onmousedown="mouseDown(3)" onmouseup="mouseUp(3)">
+      <div id="lightOnOffConfigDraggableHandle" class="handle" style="width: 330px">属性配置</div>
+      <div style="margin-top: 20px"></div>
+      <table id="lightOnOff">
+        <tr>
+          <td><strong>设备ID:</strong></td>
+          <td><input id="devId" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>开关:</strong></td>
+          <td>
+            <select id="onOff" style="width:100px;height: 25px;padding-left: 10%">
+              <option value="0">关灯</option>
+              <option value="1">开灯</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <button id="lightOnOffConfigSaveBtn" class="elementBtn1" type="button" onclick="savelightOnOffConfiguration('div3')" style="margin-left: 100px;margin-top: 20px">保存</button>
+      <button id="lightOnOffConfigCancelBtn" class="elementBtn1" type="button" onclick="closeElement('div3')">取消</button>
+    </div>
+
+    <!--双击Palette2设置灯颜色时，弹出的div层-->
+    <div id="div4" class="draggable" style="top: 200px;  left: 500px; width: 330px; height: 160px" onmousedown="mouseDown(4)" onmouseup="mouseUp(4)">
+      <div id="lightColorConfigDraggableHandle" class="handle" style="width: 330px">属性配置</div>
+      <div style="margin-top: 20px"></div>
+      <table id="lightColor">
+        <tr>
+          <td><strong>设备ID:</strong></td>
+          <td><input id="device"  type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>颜色:</strong></td>
+          <td>
+            <select id="color" style="width:100px;height: 25px;padding-left: 10%">
+              <option value="0,255,0">红灯</option>
+              <option value="0,255,255">黄灯</option>
+              <option value="0,0,255">绿灯</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <button id="lightColorConfigSaveBtn" class="elementBtn1" type="button" onclick="savelightColorConfiguration('div4')" style="margin-left: 100px;margin-top: 20px">保存</button>
+      <button id="lightColorConfigCancelBtn" class="elementBtn1" type="button" onclick="closeElement('div4')">取消</button>
+    </div>
+
+    <!--双击由exclusive gateway发出的连线时，弹出的div层-->
+    <div id="div5" class="draggable" style="top: 180px;  left: 600px; width: 340px; height: 160px" onmousedown="mouseDown(5)" onmouseup="mouseUp(5)">
+      <div id="linkDraggableHandle" class="handle">属性配置</div>
+      <div style="margin-top: 20px;"></div>
+      <table id="myLink">
+        <tr>
+          <td> <strong>默认流:</strong> </td>
+          <td> <select id="defaultFlow" type="text" style="width: 240px;padding-left: 37%;">
+            <option value="false">false</option>
+            <option value="true">true</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td><strong>条件:</strong></td>
+          <td><input id="condition" value="" type="text"/></td>
+        </tr>
+      </table>
+
+      <button id="linkSaveBtn" class="elementBtn1" type="button" onclick="saveLinkConfig('div5')" style="margin-left: 105px; margin-top: 20px">保存</button>
+      <button id="linkCancelBtn" class="elementBtn1" type="button" onclick="closeElement('div5')">取消</button>
+    </div>
+
+    <!--点击“保存并返回”时，弹出的div层-->
+    <div id="div6" class="draggable" style="top: 100px;  left: 600px; width: 350px; height: 210px" onmousedown="mouseDown(6)" onmouseup="mouseUp(6)">
+      <div id="saveDraggableHandle" class="handle" style="width: 350px">属性配置</div>
+      <div style="margin-top: 20px"></div>
+      <table id="myProcess">
+        <tr>
+          <td><strong>流程名:</strong></td>
+          <td><input id="proName" value="" type="text"/></td>
+        </tr>
+        <tr>
+        <td> <strong>多实例:</strong> </td>
+        <td> <select id="multiple" type="text" style="width: 240px;padding-left: 37%;" >
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select></td>
+        </tr>
+        <tr>
+          <td><strong>流程描述:</strong></td>
+          <td><textarea id="proDes" style="width: 230px; height: 45px; resize: none"></textarea></td>
+        </tr>
+
+      </table>
+
+      <button id="saveBtn1" class="elementBtn1" type="button" onclick="saveProConfiguration('div6')" style="margin-left: 110px; margin-top: 10px">保存</button>
+      <button id="cancelBtn4" class="elementBtn1" type="button" onclick="closeElement('div6')">取消</button>
+    </div>
+
+    <!-- 双击subProcess时，弹出的div层 -->
+    <div id="div7" class="draggable" style="top: 100px;  left: 600px; width: 350px; height: 210px" onmousedown="mouseDown(7)" onmouseup="mouseUp(7)">
+      <div id="saveSubProcessDraggableHandle" class="handle" style="width: 350px">属性配置</div>
+      <div style="margin-top: 20px"></div>
+      <table id="mySubProcess">
+        <tr>
+          <td><strong>名称:</strong></td>
+          <td><input id="subProName" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>执行方式:</strong></td>
+          <td><select id="subProcessBehavior" style="width: 240px;padding-left: 34%;">
+            <option value="immediate">立即执行</option>
+            <option value="delay">延迟执行</option>
+            <option value="cycle">周期执行</option>
+            <option value="loop">循环执行</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td> <strong>执行次数:</strong> </td>
+          <td> <input id="subProExeTimes" type="text"/> </td>
+        </tr>
+        <tr>
+          <td><strong>执行时间:</strong></td>
+          <td><input id="subProCron" type="text"/> </td>
+        </tr>
+
+      </table>
+
+      <button id="saveSubProcessBtn" class="elementBtn1" type="button" onclick="saveSubProcessConfig('div7')" style="margin-left: 110px; margin-top: 10px">保存</button>
+      <button id="cancelSubProcessBtn" class="elementBtn1" type="button" onclick="closeElement('div7')">取消</button>
+    </div>
+
+    <!-- 双击callActivity时，弹出的div层 -->
+    <div id="div8" class="draggable" style="top: 100px;  left: 600px; width: 350px; height: 240px" onmousedown="mouseDown(8)" onmouseup="mouseUp(8)">
+      <div id="saveCallActivityDraggableHandle" class="handle" style="width: 350px">属性配置</div>
+      <div style="margin-top: 20px"></div>
+      <table id="myCallActivity">
+        <tr>
+          <td><strong>名称:</strong></td>
+          <td><input id="callActivityName" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>调用ID:</strong></td>
+          <td><input id="callId" type="text"/></td>
+        </tr>
+        <tr>
+          <td><strong>执行方式:</strong></td>
+          <td><select id="callActivityBehavior" style="width: 240px;padding-left: 37%;">
+            <option value="immediate">立即执行</option>
+            <option value="delay">延迟执行</option>
+            <option value="cycle">周期执行</option>
+            <option value="loop">循环执行</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td> <strong>执行次数:</strong> </td>
+          <td> <input id="callActivityExeTimes" type="text"/> </td>
+        </tr>
+        <tr>
+          <td><strong>执行时间:</strong></td>
+          <td><input id="callActivityCron" type="text"/> </td>
+        </tr>
+
+      </table>
+
+      <button id="saveCallActivityBtn" class="elementBtn1" type="button" onclick="saveCallActivityConfig('div8')" style="margin-left: 110px; margin-top: 10px">保存</button>
+      <button id="cancelCallActivityBtn" class="elementBtn1" type="button" onclick="closeElement('div8')">取消</button>
+    </div>
+
+    <!--  选中某个service后，弹出该对话框决定开启还是结束该服务 -->
+    <div id="div10" class="draggable" style="top: 100px;  left: 600px; width: 300px; height: 100px" onmousedown="mouseDown(10)" onmouseup="mouseUp(10)">
+      <div id="serviceHandle" class="handle" style="width: 300px">属性配置</div>
+      <div style="margin-top: 10px"></div>
+      <table id="myService">
+        <tr>
+          <td><select id="serviceConfig" style="width: 240px;padding-left: 34%; margin-left: 30px">
+            <option value="online">上线</option>
+            <option value="start">开启</option>
+            <option value="pause">暂停</option>
+            <option value="stop">结束</option>
+          </select></td>
+        </tr>
+
+      </table>
+
+      <button id="saveServiceBtn" class="elementBtn1" type="button" onclick="saveServiceConfig('div10')" style="margin-left: 90px; margin-top: 10px">保存</button>
+      <button id="cancelServiceBtn" class="elementBtn1" type="button" onclick="closeElement('div10')">取消</button>
+    </div>
+
+    <!-- 结果分析弹出框-->
+    <div id="div11" class="draggable" style="top: 100px;  left: 600px; width: 300px; height: 180px" onmousedown="mouseDown(11)" onmouseup="mouseUp(11)">
+      <div id="analysisHandle" class="handle1" style="width: 300px">Analysis for <span id="resultName"></span>:</div>
+      <div style="margin-top: 10px"></div>
+      <textarea id="analysisResult" style="margin-left: 10px; width: 280px; height:100px; resize: none">
+
+      </textarea>
+
+      <button id="saveAnalysisBtn" class="elementBtn1" type="button" onclick="saveAnalysisConfig('div11')" style="margin-left: 80px; margin-top: 10px">Save</button>
+      <button id="cancelAnalysisBtn" class="elementBtn1" type="button" onclick="closeElement('div11')">Cancel</button>
+    </div>
+
+    <!--  选中某个model后，弹出该对话框决定开启还是结束该模型 -->
+    <div id="div12" class="draggable" style="top: 100px;  left: 600px; width: 300px; height: 100px" onmousedown="mouseDown(12)" onmouseup="mouseUp(12)">
+      <div id="modelHandle" class="handle" style="width: 300px">属性配置</div>
+      <div style="margin-top: 10px"></div>
+      <table id="myModel">
+        <tr>
+          <td><select id="modelConfig" style="width: 240px;padding-left: 35%; margin-left: 30px">
+            <option value="online">上线</option>
+            <option value="start">开启</option>
+            <option value="pause">暂停</option>
+            <option value="stop">结束</option>
+          </select></td>
+        </tr>
+
+      </table>
+
+      <button id="saveModelBtn" class="elementBtn1" type="button" onclick="saveModelConfig('div12')" style="margin-left: 90px; margin-top: 10px">保存</button>
+      <button id="cancelModelBtn" class="elementBtn1" type="button" onclick="closeElement('div12')">取消</button>
+    </div>
+
+    <!--  选中某个application后，弹出该对话框决定开启还是结束该应用 -->
+    <div id="div13" class="draggable" style="top: 300px;  left: 600px; width: 310px; height: 180px" onmousedown="mouseDown(13)" onmouseup="mouseUp(13)">
+      <div id="appHandle" class="handle" style="width: 310px">属性配置</div>
+      <div style="margin-top: 15px"></div>
+      <table id="myApplication">
+          <tr>
+            <td><strong>名称:</strong></td>
+            <td><input id="appName" type="text"/></td>
+          </tr>
+          <tr>
+            <td><strong>ID:</strong></td>
+            <td><input id="appId" type="text"/></td>
+          </tr>
+        <tr>
+          <td><strong>命令:</strong></td>
+          <td><select id="appCmd" style="width: 240px;padding-left: 37%;">
+            <option value="上线">上线</option>
+            <option value="开启">开启</option>
+            <option value="暂停">暂停</option>
+            <option value="结束">结束</option>
+          </select></td>
+        </tr>
+      </table>
+
+      <button id="saveApplicationBtn" class="elementBtn1" type="button" onclick="saveApplicationConfig('div13')" style="margin-left: 95px; margin-top: 15px">保存</button>
+      <button id="cancelApplicationBtn" class="elementBtn1" type="button" onclick="closeElement('div13')">取消</button>
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+  // 全局变量定义
+  var currentNodeData;
+  var currentLinkData;
+  var currentObj;
+  var currentName;
+  var currentId;
+  var currentSize;
+
+  // 生成UUID(128位unsigned integer):特定字符串（唯一）/32位16进制数据
+  // 此处只采用8位
+  var createUUID = (function(uuidRegExp, uuidReplacer) {
+    return function(){
+      return "xxxx-4xyx".replace(uuidRegExp, uuidReplacer).toUpperCase();
+    };
+  })(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+            v = c == "x" ? r : (r & 3 | 8);
+    return v.toString(16);    // 表示以16进制值显示（v为Number类型）
+  });
+
+  // sideBar拖拽
+  jQuery(function($){
+    var doc = $(document),        // 获取整个文档对象
+            dl = $("div#sideBar"),
+            dr = $("div#myDiagram");
+    var sum = dl.width() + dr.width() + $("div#dragBar").mousedown(function(e) {
+
+              var me = $(this);      // this<——>dragBar
+              var deltaX = e.clientX - (parseFloat(me.css("left")));   // 鼠标移动的距离
+
+              doc.mousemove(function(e) {
+                var lt = e.clientX - deltaX;
+                lt = lt < 0 ? 0 : lt;
+                lt = lt > sum - me.width() ? sum - me.width() : lt;
+                me.css("left", lt + "px");
+                dl.width(lt);
+                dr.width(sum-lt-me.width());
+              });
+            }).width();
+
+    doc.mouseup(function() {
+      doc.unbind("mousemove");
+    });
+  });
+
+  // div 弹出框拖拽
+  jQuery(function(){
+    jQuery("#div1").draggable();
+    jQuery("#div2").draggable();
+    jQuery("#div3").draggable();
+    jQuery("#div4").draggable();
+    jQuery("#div5").draggable();
+    jQuery("#div6").draggable();
+    jQuery("#div7").draggable();
+    jQuery("#div8").draggable();
+    jQuery("#div9").draggable();
+    jQuery("#div10").draggable();
+    jQuery("#div11").draggable();
+    jQuery("#div12").draggable();
+    jQuery("#div13").draggable();
+});
+
+  // 改变div层叠顺序
+  function mouseDown(n) {
+    document.getElementById("div" + n).style.cursor = "move";
+    changeZIndex(n);
+  }
+  function mouseUp(n){
+    document.getElementById("div" + n).style.cursor = "default";
+  }
+
+  function changeZIndex(n){
+    for(var i=1;i<14;i++){
+      if(n == i){
+        document.getElementById("div"+ i).style.zIndex = "100";
+      }else{
+        document.getElementById("div"+ i).style.zIndex = "10";
+      }
+    }
+  }
+
+  var paletteArray = [];
+  // 加载Palette2中图标对应的数据
+  function loadPaletteJSONData(paletteData){
+    paletteArray = paletteData;
+  }
+
+  // 接收从后台传过来的Event图标对应的json数据（数组nodeDataArray[]），赋值给eventArray数组.
+  eventArray = paletteArray;
+  // 遍历该数组，依次获得各个定制的event图标相应的数据对象
+  for (var i=0;i<eventArray.length;i++){
+    var event_Noi = eventArray[i];
+  }
+
+  extraArray = [{ key: createUUID(), nType: "activity", category: "exTask", name: "开关", desc: "控制灯的开关", gType: 11,
+                  nConfig: {
+                         aId: "", aName: "", aDesc: "", type: "task", userId: "",
+                         behavior: "immediate", behaviorConfig: {exeTimes: 4, cron: "*/20 * * * * ?"},
+                         config: {
+                           tType: "lightOnOff",
+                           taskArgs: {
+                              userId: "skdjfhw23", userPass: "1232321",
+                              cmd: "IotRunCmd", appDid: "xxxxxxx", appCore: 2, coreCode: "8888888888",
+                              deviceId: "10002AXG", subDevId: "10002AXG", cmdId: "" + 903501,
+                              argInt32: [1], argDouble: [0], argString: [0], argByte: "",
+                              page: 0, pageSize: 0
+                           }
+                         }
+                  }
+               },
+               { key: createUUID(), nType: "activity", category: "exTask", name: "灯颜色", desc: "控制灯的颜色", gType: 12,
+                 nConfig: {
+                     aId: "", aName: "", aDesc: "", type: "task", userId: "",
+                     behavior: "immediate", behaviorConfig: {exeTimes: 4, cron: "*/20 * * * * ?"},
+                     config: {
+                       tType: "lightColor",
+                       taskArgs: {
+                         userId: "skdjfhw23", userPass: "1232321",
+                         cmd: "IotRunCmd", appDid: "xxxxxxx", appCore: 2, coreCode: "8888888888",
+                         deviceId: "10002AXG", subDevId: "10002AXG", cmdId: "" + 903501,
+                         argInt32: [0,255,255], argDouble: [0], argString: [0], argByte: "",
+                         page: 0, pageSize: 0
+                       }
+                     }
+                 }
+               }];
+
+  function saveData(data){
+
+    var orignDiagramData = JSON.parse(myDiagram.model.toJson());
+    delete orignDiagramData.modelData;
+
+    var diagramData = jQuery.extend({}, data, orignDiagramData);
+
+    var procDef = JSON.stringify(diagramData);
+
+    console.log(procDef);
+
+  }
+
+</script>
+
+</body>
+</html>
